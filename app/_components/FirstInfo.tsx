@@ -18,12 +18,18 @@ import { StepProps } from "./SecondInfo";
 import z from "zod";
 
 const formSchema = z.object({
-  firstname: z.string().min(5, {
-    message: "HI",
-  }),
-  lastname: z.string().regex(/^[a-zA-Z\s]+$/, {
-    message: "Last name cannot contain special characters or numbers.",
-  }),
+  firstname: z
+    .string()
+    .min(4)
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "First name cannot contain special characters or numbers.",
+    }),
+  lastname: z
+    .string()
+    .min(4)
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Last name cannot contain special characters or numbers.",
+    }),
   username: z.string().min(2, {
     message: "This username is already taken. Please choose another one.",
   }),

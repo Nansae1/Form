@@ -25,10 +25,10 @@ const formSchema = z
     phonenumber: z.string().regex(/^\+?\d{8}$/, {
       message: "Please enter a valid phone number.",
     }),
-    password: z.string().min(2, {
+    password: z.string().min(8, {
       message: "Password must include letters and numbers.",
     }),
-    confirmpass: z.string().min(8, { message: "min 8" }),
+    confirmpass: z.string().min(8),
   })
   .refine(
     (values) => {
