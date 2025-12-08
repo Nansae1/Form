@@ -12,7 +12,7 @@ export default function Home() {
     <div className="h-screen w-screen flex justify-center items-center">
       {step == 1 && <FirstInfo step={step} setStep={setStep} />}
       {step == 2 && <SecondInfo step={step} setStep={setStep} />}
-      {step == 3 && <ThirdInfo />}
+      {step == 3 && <ThirdInfo step={step} setStep={setStep} />}
     </div>
   );
 }

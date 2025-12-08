@@ -16,6 +16,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { StepProps } from "./SecondInfo";
 import z from "zod";
+import { Header } from "./Header";
 
 const formSchema = z.object({
   firstname: z
@@ -56,18 +57,7 @@ export const FirstInfo = ({ step, setStep }: StepProps) => {
   return (
     <Card className="h-163.75 w-120 flex flex-col gap-40.5 items-center">
       <CardHeader className="h-96.5 w-104 flex flex-col gap-7 items-center">
-        <div className="gap-1.5 flex flex-col w-104">
-          <img
-            src="./48cbcd1fb0c85cb83db9b8c1218a4675117f8e3f.png"
-            className="h-15 w-15"
-          ></img>
-          <div className="flex flex-col gap-2">
-            <h1 className="text-6.5 font-semibold">Join Us! 😎</h1>
-            <p className="text-4.5 text-[#8E8E8E]">
-              Please provide all current information accurately.
-            </p>
-          </div>
-        </div>
+        <Header />
         <CardContent className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
             <Form {...form}>
