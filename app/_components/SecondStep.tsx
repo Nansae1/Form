@@ -130,6 +130,7 @@ export const SecondStep = ({ step, setStep }: StepProps) => {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          type="password"
                           placeholder="Place holder"
                           className="h-11 w-104"
                           {...field}
@@ -150,6 +151,7 @@ export const SecondStep = ({ step, setStep }: StepProps) => {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          type="password"
                           placeholder="Place holder"
                           className="h-11 w-104"
                           {...field}

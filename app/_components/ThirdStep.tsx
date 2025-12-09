@@ -54,6 +54,10 @@ export const ThirdStep = ({ step, setStep }: StepProps) => {
     setStep(step + 1);
   };
 
+  const a = form.watch();
+
+  console.log(a);
+
   const backChange = () => {
     setStep(step - 1);
   };
@@ -86,7 +90,9 @@ export const ThirdStep = ({ step, setStep }: StepProps) => {
                             id="date"
                             className="w-104 justify-between font-normal "
                           >
-                            {date ? date.toLocaleDateString() : "--/--/--"}
+                            {field.value
+                              ? field.value.toLocaleDateString()
+                              : "--/--/--"}
                             <CalendarIcon className="text-black h-3 w-3" />
                           </Button>
                         </PopoverTrigger>
@@ -99,10 +105,10 @@ export const ThirdStep = ({ step, setStep }: StepProps) => {
                             selected={date}
                             captionLayout="dropdown"
                             onSelect={(date) => {
-                              setDate(date);
+                              if (!date) return;
+                              form.setValue("datepicker", date);
                               setOpen(false);
                             }}
-                            {...field}
                           />
                         </PopoverContent>
                       </Popover>
