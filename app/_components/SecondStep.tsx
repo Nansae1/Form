@@ -46,7 +46,7 @@ export type StepProps = {
   setStep: Dispatch<SetStateAction<number>>;
 };
 
-export const SecondInfo = ({ step, setStep }: StepProps) => {
+export const SecondStep = ({ step, setStep }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

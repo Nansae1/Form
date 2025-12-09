@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { StepProps } from "./SecondInfo";
+import { StepProps } from "./SecondStep";
 import z from "zod";
 import { Header } from "./Header";
 
@@ -36,7 +36,7 @@ const formSchema = z.object({
   }),
 });
 
-export const FirstInfo = ({ step, setStep }: StepProps) => {
+export const FirstStep = ({ step, setStep }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -128,7 +128,7 @@ export const FirstInfo = ({ step, setStep }: StepProps) => {
 
                 <Button
                   type="submit"
-                  className="h-11 w-104 bg-black text-white text-[16px]"
+                  className="mt-22 h-11 w-104 bg-black text-white text-[16px]"
                 >
                   Continue 1/3{" "}
                 </Button>
