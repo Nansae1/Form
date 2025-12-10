@@ -35,19 +35,20 @@ const formSchema = z.object({
   }),
 });
 
-export const FirstStep = ({ step, setStep }: StepProps) => {
+export const FirstStep = ({ step, setStep, data, setData }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
-      username: "",
+      firstname: data.firstname,
+      lastname: data.lastname,
+      username: data.username,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
+
     setStep(step + 1);
   }
 

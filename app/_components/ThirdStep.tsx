@@ -37,7 +37,7 @@ const formSchema = z.object({
   uploadimg: z.string().min(1, "Image cannot be blank"),
 });
 
-export const ThirdStep = ({ step, setStep }: StepProps) => {
+export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [selectedFoto, setSelectedFoto] = useState<string | null>(null);
@@ -45,7 +45,7 @@ export const ThirdStep = ({ step, setStep }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      uploadimg: "",
+      uploadimg: data.uploadimg,
     },
   });
 
@@ -59,6 +59,10 @@ export const ThirdStep = ({ step, setStep }: StepProps) => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log("agadg");
     console.log(values);
+    setData((prev) => ({
+      ...prev,
+      uploadimg: values.uploadimg,
+    }));
     setStep(step + 1);
   };
 

@@ -39,7 +39,7 @@ const formSchema = z
       return values.password === values.confirmpass;
     },
     {
-      message: "Don't match",
+      message: "Doesn't match",
       path: ["confirmpass"],
     }
   );
@@ -47,6 +47,19 @@ const formSchema = z
 export type StepProps = {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
+  data: dataProps;
+  setData: Dispatch<SetStateAction<dataProps>>;
+};
+export type dataProps = {
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  phonenumber: string;
+  password: string;
+  confirmpass: string;
+  datepicker: string;
+  uploadimg: string;
 };
 
 export const variants = {
@@ -55,14 +68,14 @@ export const variants = {
   initial: { opacity: 0, x: 100 },
 };
 
-export const SecondStep = ({ step, setStep }: StepProps) => {
+export const SecondStep = ({ step, setStep, data, setData }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      phonenumber: "",
-      password: "",
-      confirmpass: "",
+      email: data.email,
+      phonenumber: data.phonenumber,
+      password: data.password,
+      confirmpass: data.confirmpass,
     },
   });
 
@@ -71,6 +84,13 @@ export const SecondStep = ({ step, setStep }: StepProps) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
+    setData((prev) => ({
+      ...prev,
+      email: values.email,
+      phonenumber: values.phonenumber,
+      password: values.password,
+      confirmpass: values.confirmpass,
+    }));
     setStep(step + 1);
   }
 
