@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { StepProps } from "./SecondStep";
+import { StepProps, variants } from "./SecondStep";
 import z from "zod";
 import { Header } from "./Header";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   firstname: z
@@ -46,8 +45,6 @@ export const FirstStep = ({ step, setStep }: StepProps) => {
     },
   });
 
-  console.log(form.formState.errors);
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
@@ -55,88 +52,95 @@ export const FirstStep = ({ step, setStep }: StepProps) => {
   }
 
   return (
-    <Card className="h-163.75 w-120 flex flex-col gap-40.5 items-center">
-      <CardHeader className="h-96.5 w-104 flex flex-col gap-7 items-center">
-        <Header />
-        <CardContent className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
-                <FormField
-                  control={form.control}
-                  name="firstname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-3.5 font-semibold">
-                        First name *
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Place holder"
-                          className="h-11 w-104"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-3.5 font-semibold">
-                        Last name *
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Place holder"
-                          className="h-11 w-104"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-3.5 font-semibold">
-                        User name *
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Place holder"
-                          className="h-11 w-104"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <Button
-                  type="submit"
-                  className="mt-22 h-11 w-104 bg-black text-white text-[16px]"
+    <motion.div
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={variants}
+    >
+      <Card className="h-163.75 w-120 flex flex-col gap-40.5 items-center">
+        <CardHeader className="h-96.5 w-104 flex flex-col gap-7 items-center">
+          <Header />
+          <CardContent className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-8"
                 >
-                  Continue 1/3{" "}
-                </Button>
-              </form>
-            </Form>
-          </div>
-        </CardContent>
-      </CardHeader>
-    </Card>
+                  <FormField
+                    control={form.control}
+                    name="firstname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-3.5 font-semibold">
+                          First name *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Place holder"
+                            className="h-11 w-104"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription></FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-3.5 font-semibold">
+                          Last name *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Place holder"
+                            className="h-11 w-104"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription></FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-3.5 font-semibold">
+                          User name *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Place holder"
+                            className="h-11 w-104"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription></FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="mt-22 h-11 w-104 bg-black text-white text-[16px]"
+                  >
+                    Continue 1/3{" "}
+                  </Button>
+                </form>
+              </Form>
+            </div>
+          </CardContent>
+        </CardHeader>
+      </Card>
+    </motion.div>
   );
 };

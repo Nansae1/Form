@@ -2,19 +2,26 @@
 
 import { useState } from "react";
 import { FirstStep } from "./_components/FirstStep";
-import { SecondStep } from "./_components/SecondStep";
+import { SecondStep, variants } from "./_components/SecondStep";
 import { ThirdStep } from "./_components/ThirdStep";
 import { Success } from "./_components/Success";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
   const [step, setStep] = useState(1);
 
   return (
     <div className="h-screen w-screen flex justify-center items-center bg-[#7F7F800D]">
-      {step == 1 && <FirstStep step={step} setStep={setStep} />}
-      {step == 2 && <SecondStep step={step} setStep={setStep} />}
-      {step == 3 && <ThirdStep step={step} setStep={setStep} />}
-      {step == 4 && <Success step={step} setStep={setStep} />}
+      <AnimatePresence>
+        {step == 1 && <FirstStep step={step} setStep={setStep} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {step == 2 && <SecondStep step={step} setStep={setStep} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {step == 3 && <ThirdStep step={step} setStep={setStep} />}
+      </AnimatePresence>
+      <AnimatePresence>{step == 4 && <Success />}</AnimatePresence>
     </div>
   );
 }
