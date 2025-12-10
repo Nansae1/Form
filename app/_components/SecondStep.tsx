@@ -58,8 +58,8 @@ export type dataProps = {
   phonenumber: string;
   password: string;
   confirmpass: string;
-  datepicker: string;
-  uploadimg: string;
+  datepicker: Date;
+  uploadimg?: File;
 };
 
 export const variants = {

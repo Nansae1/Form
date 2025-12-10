@@ -48,6 +48,13 @@ export const FirstStep = ({ step, setStep, data, setData }: StepProps) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
+    setData((prev) => ({
+      ...prev,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      username: values.username,
+    }));
+    setStep(step + 1);
 
     setStep(step + 1);
   }

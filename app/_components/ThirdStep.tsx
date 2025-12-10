@@ -34,17 +34,17 @@ const formSchema = z.object({
     .refine((date) => date <= eighteenYearsAgo, {
       message: "You must be 18 years or older.",
     }),
-  uploadimg: z.string().min(1, "Image cannot be blank"),
+  uploadimg: z.file().optional(),
 });
 
 export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [selectedFoto, setSelectedFoto] = useState<string | null>(null);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      datepicker: data.datepicker,
       uploadimg: data.uploadimg,
     },
   });
@@ -52,8 +52,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    form.setValue("uploadimg", file.name);
-    setSelectedFoto(URL.createObjectURL(file));
+    form.setValue("uploadimg", file);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -61,6 +60,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
     console.log(values);
     setData((prev) => ({
       ...prev,
+      datepicker: values.datepicker,
       uploadimg: values.uploadimg,
     }));
     setStep(step + 1);
@@ -137,7 +137,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
                   <FormField
                     control={form.control}
                     name="uploadimg"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-[14px] font-semibold">
                           Profile image *
@@ -154,17 +154,16 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
                               onChange={handleFileChange}
                               className="opacity-0 absolute top-0 left-0 h-full w-full"
                             />
-                            {selectedFoto && (
+                            {field.value && (
                               <img
-                                src={selectedFoto}
+                                src={URL.createObjectURL(field.value)}
                                 className="absolute top-0 left-0 h-full w-full object-cover rounded-md"
                               />
                             )}
-                            {selectedFoto && (
+                            {field.value && (
                               <X
                                 onClick={() => {
-                                  setSelectedFoto(null);
-                                  form.setValue("uploadimg", "");
+                                  form.setValue("uploadimg", undefined);
                                 }}
                                 className="h-6 w-6 rounded-xl bg-[#202124] text-white absolute top-4 right-4"
                               />

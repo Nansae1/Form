@@ -1,8 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { variants } from "./SecondStep";
+import { StepProps, variants } from "./SecondStep";
+import { Button } from "@/components/ui/button";
 
-export const Success = () => {
+export const Success = ({ step, setStep }: StepProps) => {
+  const backChange = () => {
+    setStep(step - 1);
+  };
   return (
     <motion.div
       initial="initial"
@@ -20,6 +24,9 @@ export const Success = () => {
           <p className="text-[14px] text-[#8E8E8E]">
             We have received your submission. Thank you!
           </p>
+          <Button type="button" onClick={backChange}>
+            Back
+          </Button>
         </CardContent>
       </Card>
     </motion.div>

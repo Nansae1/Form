@@ -18,9 +18,9 @@ export default function Home() {
     phonenumber: "",
     password: "",
     confirmpass: "",
-    datepicker: "",
-    uploadimg: "",
+    datepicker: new Date(),
   });
+
   return (
     <div className="h-screen w-screen flex justify-center items-center bg-[#7F7F800D]">
       <AnimatePresence>
@@ -53,7 +53,16 @@ export default function Home() {
           />
         )}
       </AnimatePresence>
-      <AnimatePresence>{step == 4 && <Success />}</AnimatePresence>
+      <AnimatePresence>
+        {step == 4 && (
+          <Success
+            data={data}
+            setData={setData}
+            step={step}
+            setStep={setStep}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
