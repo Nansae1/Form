@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { StepProps, variants } from "./SecondStep";
 import z from "zod";
@@ -44,8 +44,8 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      datepicker: data.datepicker,
-      uploadimg: data.uploadimg,
+      datepicker: undefined,
+      uploadimg: undefined,
     },
   });
 
@@ -54,15 +54,27 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
     if (!file) return;
     form.setValue("uploadimg", file);
   };
+  useEffect(() => {
+    const saved = localStorage.getItem("ThirdStep");
+    if (saved) {
+      form.reset({
+        datepicker: new Date(JSON.parse(saved).datepicker),
+      });
+    }
+  }, []);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log("agadg");
     console.log(values);
-    setData((prev) => ({
-      ...prev,
-      datepicker: values.datepicker,
-      uploadimg: values.uploadimg,
-    }));
+    localStorage.setItem(
+      "ThirdStep",
+      JSON.stringify({ datepicker: values.datepicker.toISOString() })
+    );
+    // setData((prev) => ({
+    //   ...prev,
+    //   datepicker: values.datepicker,
+    //   uploadimg: values.uploadimg,
+    // }));
     setStep(step + 1);
   };
 
@@ -109,7 +121,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
                               className="w-104 justify-between font-normal "
                             >
                               {field.value
-                                ? field.value.toLocaleDateString()
+                                ? new Date(field.value).toISOString()
                                 : "--/--/--"}
                               <CalendarIcon className="text-black h-3 w-3" />
                             </Button>
@@ -125,6 +137,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
                               onSelect={(date) => {
                                 if (!date) return;
                                 form.setValue("datepicker", date);
+                                // field.onChange(date);
                                 setOpen(false);
                               }}
                             />

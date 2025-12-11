@@ -16,6 +16,7 @@ import { StepProps, variants } from "./SecondStep";
 import z from "zod";
 import { Header } from "./Header";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   firstname: z
@@ -39,23 +40,29 @@ export const FirstStep = ({ step, setStep, data, setData }: StepProps) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: data.firstname,
-      lastname: data.lastname,
-      username: data.username,
+      firstname: "",
+      lastname: "",
+      username: "",
     },
   });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("FirstStep");
+    if (saved) {
+      form.reset(JSON.parse(saved));
+    }
+  }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
-    setData((prev) => ({
-      ...prev,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      username: values.username,
-    }));
-    setStep(step + 1);
-
+    localStorage.setItem("FirstStep", JSON.stringify(values));
+    // setData((prev) => ({
+    //   ...prev,
+    //   firstname: values.firstname,
+    //   lastname: values.lastname,
+    //   username: values.username,
+    // }));
     setStep(step + 1);
   }
 
