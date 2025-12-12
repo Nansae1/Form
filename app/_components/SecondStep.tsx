@@ -12,11 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Header } from "./Header";
 import { motion } from "framer-motion";
+import { StepContext } from "../page";
 
 const formSchema = z
   .object({
@@ -68,7 +69,9 @@ export const variants = {
   initial: { opacity: 0, x: 100 },
 };
 
-export const SecondStep = ({ step, setStep, data, setData }: StepProps) => {
+export const SecondStep = () => {
+  const { data, handleNext, handleBack, setData } = useContext(StepContext);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,12 +94,8 @@ export const SecondStep = ({ step, setStep, data, setData }: StepProps) => {
       password: values.password,
       confirmpass: values.confirmpass,
     }));
-    setStep(step + 1);
+    handleNext();
   }
-
-  const backChange = () => {
-    setStep(step - 1);
-  };
 
   return (
     <motion.div
@@ -201,7 +200,7 @@ export const SecondStep = ({ step, setStep, data, setData }: StepProps) => {
                     <Button
                       className="h-11 w-32 bg-white text-black border border-[#CBD5E1] text-[16px]"
                       type="button"
-                      onClick={backChange}
+                      onClick={handleBack}
                     >
                       <ChevronLeft /> Back
                     </Button>

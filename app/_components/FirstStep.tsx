@@ -16,7 +16,8 @@ import { StepProps, variants } from "./SecondStep";
 import z from "zod";
 import { Header } from "./Header";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { StepContext } from "../page";
 
 const formSchema = z.object({
   firstname: z
@@ -36,34 +37,29 @@ const formSchema = z.object({
   }),
 });
 
-export const FirstStep = ({ step, setStep, data, setData }: StepProps) => {
+export const FirstStep = () => {
+  const { data, handleNext, handleBack, setData } = useContext(StepContext);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
-      username: "",
+      firstname: data.firstname,
+      lastname: data.lastname,
+      username: data.username,
     },
   });
-
-  useEffect(() => {
-    const saved = localStorage.getItem("FirstStep");
-    if (saved) {
-      form.reset(JSON.parse(saved));
-    }
-  }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("agadg");
     console.log(values);
     localStorage.setItem("FirstStep", JSON.stringify(values));
-    // setData((prev) => ({
-    //   ...prev,
-    //   firstname: values.firstname,
-    //   lastname: values.lastname,
-    //   username: values.username,
-    // }));
-    setStep(step + 1);
+    handleNext();
+    setData((prev) => ({
+      ...prev,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      username: values.username,
+    }));
   }
 
   return (

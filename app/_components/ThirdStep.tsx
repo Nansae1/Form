@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon, ChevronLeft, ChevronRight, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Header } from "./Header";
 import { StepProps, variants } from "./SecondStep";
 import z from "zod";
@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { motion } from "framer-motion";
+import { StepContext } from "../page";
 
 const eighteenYearsAgo = new Date();
 eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
@@ -37,15 +38,17 @@ const formSchema = z.object({
   uploadimg: z.file().optional(),
 });
 
-export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
+export const ThirdStep = () => {
+  const { data, handleNext, handleBack, setData } = useContext(StepContext);
+
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      datepicker: undefined,
-      uploadimg: undefined,
+      datepicker: data.datepicker,
+      uploadimg: data.uploadimg,
     },
   });
 
@@ -54,15 +57,6 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
     if (!file) return;
     form.setValue("uploadimg", file);
   };
-  useEffect(() => {
-    const saved = localStorage.getItem("ThirdStep");
-    if (saved) {
-      form.reset({
-        datepicker: new Date(JSON.parse(saved).datepicker),
-      });
-    }
-  }, []);
-
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log("agadg");
     console.log(values);
@@ -70,21 +64,18 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
       "ThirdStep",
       JSON.stringify({ datepicker: values.datepicker.toISOString() })
     );
-    // setData((prev) => ({
-    //   ...prev,
-    //   datepicker: values.datepicker,
-    //   uploadimg: values.uploadimg,
-    // }));
-    setStep(step + 1);
+    setData((prev) => ({
+      ...prev,
+      datepicker: values.datepicker,
+      uploadimg: values.uploadimg,
+    }));
+    handleNext();
   };
 
   const a = form.watch();
 
   console.log(a);
 
-  const backChange = () => {
-    setStep(step - 1);
-  };
   return (
     <motion.div
       initial="initial"
@@ -191,7 +182,7 @@ export const ThirdStep = ({ step, setStep, data, setData }: StepProps) => {
                     <Button
                       className="h-11 w-32 bg-white text-black border border-[#CBD5E1] text-[16px]"
                       type="button"
-                      onClick={backChange}
+                      onClick={handleBack}
                     >
                       {" "}
                       <ChevronLeft /> Back
